@@ -1,0 +1,11 @@
+
+.container{
+    background-color: rgb(14, 100, 74);
+    justify-content: center;
+} 
+.elementCanvas{
+    margin-top: 2%;
+    top: 3%;
+    left: 3%;
+    position: relative;
+}

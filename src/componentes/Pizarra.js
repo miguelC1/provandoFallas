@@ -1,50 +1,45 @@
-import { useState } from "react";
+import React, { useRef } from "react"
+import CanvasDraw from "react-canvas-draw"
 
 const Pizarra = () => {
-    const [canvas,setCanvas]=useState(null)
-    
-    function handleMouseDown(e) {
-        setCanvas
-        const mainCanvas = document.getElementById("pizarra");
-        m = oMousePos(mainCanvas, e);
-        x = m.x;
-        y = m.y;
-        dibujando = true;
+    const canvasDrawing = useRef(null)
+
+    const handleSave = () =>{
+      const data = canvasDrawing.current.getSaveData()
+      console.log(data)
     }
-    function handleMouseMove(e) {
-        if (dibujando === true) {
-          const mainCanvas = document.getElementById("pizarra");
-          m = oMousePos(mainCanvas, e);
-          dibujar(x, y, m.x, m.y);
-          x = m.x;
-          y = m.y;
-        }
+
+    const canvasClear = () =>{
+      canvasDrawing.current.clear()
     }
-    function handleMouseUp(e) {
-        if (dibujando === true) {
-          const mainCanvas = document.getElementById("pizarra");
-          m = oMousePos(mainCanvas, e);
-          dibujar(x, y, m.x, m.y);
-          x = 0;
-          y = 0;
-          dibujando = false;
-        }
-      }
+
+    const canvasUndo = () =>{
+      canvasDrawing.current.undo()
+    }
 
     return (
-   <div className="w3-container">
-        <div className="w3-col s12">
-            <canvas 
-            className="w3-card-4 w3-border"
-            id="pizarra"
-            width="1350"
-            height="600"
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            ></canvas>
-        </div>
-   </div>
+      <div className=" container " >
+        <CanvasDraw
+        className="elementCanvas"
+        brushRadius = {2}
+        canvasWidth= {1200}
+        canvasHeight={ 500}
+        ref={canvasDrawing}
+        />
+
+        <button
+          onClick={handleSave}
+        >Save</button>
+
+        <button
+          onClick={canvasClear}
+        >Clear</button>
+
+        <button
+          onClick={canvasUndo}
+        >Undo</button>
+
+      </div>
   
     )
   }
